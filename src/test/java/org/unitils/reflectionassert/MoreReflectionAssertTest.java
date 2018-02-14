@@ -13,7 +13,7 @@ import org.opentest4j.AssertionFailedError;
 
 class MoreReflectionAssertTest {
 
-  private static void assertFailing(Executable executable) {
+  static void assertFailing(Executable executable) {
     assertThrows(AssertionFailedError.class, executable);
   }
 
