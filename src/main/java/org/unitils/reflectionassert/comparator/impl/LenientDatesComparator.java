@@ -15,57 +15,74 @@
  */
 package org.unitils.reflectionassert.comparator.impl;
 
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 import org.unitils.reflectionassert.ReflectionComparator;
 import org.unitils.reflectionassert.comparator.Comparator;
 import org.unitils.reflectionassert.difference.Difference;
 
-import java.util.Date;
-
 /**
- * Comparator that checks whether 2 dates are both null or not null, the actual time-value is not compared.
- * This can be useful when the actual time/date is not known is advance but you still want to check whether
- * a value has been set or not. E.g. a last modification timestamp in the databsse.
+ * Comparator that checks whether 2 dates are both null or not null, the actual time-value is not
+ * compared. This can be useful when the actual time/date is not known is advance but you still want
+ * to check whether a value has been set or not. E.g. a last modification timestamp in the
+ * database.
+ *
+ * This comparator supports Java 8 Date & Time API too.
  *
  * @author Tim Ducheyne
  * @author Filip Neven
  */
 public class LenientDatesComparator implements Comparator {
 
-
-    /**
-     * Returns true if both objects are null or both objects are Date instances.
-     *
-     * @param left  The left object
-     * @param right The right object
-     * @return True if null or dates
-     */
-    public boolean canCompare(Object left, Object right) {
-        if (right == null && left == null) {
-            return true;
-        }
-        if (right instanceof Date && left instanceof Date) {
-            return true;
-        }
-        if ((right == null && left instanceof Date) || (left == null && right instanceof Date)) {
-            return true;
-        }
-        return false;
+  /**
+   * Returns true if both objects are null or both objects are Date instances.
+   *
+   * @param left The left object
+   * @param right The right object
+   * @return True if null or dates
+   */
+  @Override
+  public boolean canCompare(Object left, Object right) {
+    if (left == null && right == null) {
+      return true;
     }
 
-
-    /**
-     * Compares the given dates.
-     *
-     * @param left                 The left date
-     * @param right                The right date
-     * @param onlyFirstDifference  True if only the first difference should be returned
-     * @param reflectionComparator The root comparator for inner comparisons, not null
-     * @return A difference if one of the dates is null and the other one not, else null
-     */
-    public Difference compare(Object left, Object right, boolean onlyFirstDifference, ReflectionComparator reflectionComparator) {
-        if ((right == null && left instanceof Date) || (left == null && right instanceof Date)) {
-            return new Difference("Lenient dates, but not both instantiated or both null", left, right);
-        }
-        return null;
+    //noinspection SimplifiableIfStatement
+    if (isSupported(left) && isSupported(right) && left.getClass().equals(right.getClass())) {
+      return true;
     }
+
+    return oneIsSupportedAndOtherIsNull(left, right);
+  }
+
+  private boolean isSupported(Object o) {
+    return o instanceof Date || o instanceof TemporalAccessor;
+  }
+
+  private boolean oneIsSupportedAndOtherIsNull(Object left, Object right) {
+    return left == null && isSupported(right) || isSupported(left) && right == null;
+  }
+
+  /**
+   * Compares the given dates.
+   *
+   * @param left The left date
+   * @param right The right date
+   * @param onlyFirstDifference True if only the first difference should be returned
+   * @param reflectionComparator The root comparator for inner comparisons, not null
+   * @return A difference if one of the dates is null and the other one not, else null
+   */
+  @Override
+  public Difference compare(
+      Object left,
+      Object right,
+      boolean onlyFirstDifference,
+      ReflectionComparator reflectionComparator
+  ) {
+    if (oneIsSupportedAndOtherIsNull(left, right)) {
+      return new Difference("Lenient dates, but not both instantiated or both null", left, right);
+    }
+
+    return null;
+  }
 }

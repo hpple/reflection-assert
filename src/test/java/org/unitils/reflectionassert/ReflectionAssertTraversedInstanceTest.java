@@ -15,7 +15,7 @@
  */
 package org.unitils.reflectionassert;
 
-import static org.unitils.reflectionassert.MoreReflectionAssertTest.assertFailing;
+import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 
 import java.util.ArrayList;

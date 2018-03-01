@@ -17,7 +17,7 @@ package org.unitils.reflectionassert;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.unitils.reflectionassert.MoreReflectionAssertTest.assertFailing;
+import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertiesNotNull;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;

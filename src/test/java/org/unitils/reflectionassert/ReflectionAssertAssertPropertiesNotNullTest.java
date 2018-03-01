@@ -1,7 +1,7 @@
 package org.unitils.reflectionassert;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.unitils.reflectionassert.MoreReflectionAssertTest.assertFailing;
+import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertAccessablePropertiesNotNull;
 
 import org.junit.jupiter.api.Test;

@@ -15,7 +15,7 @@
  */
 package org.unitils.reflectionassert;
 
-import static org.unitils.reflectionassert.MoreReflectionAssertTest.assertFailing;
+import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyReflectionEquals;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;

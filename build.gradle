@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compileOnly "org.junit.jupiter:junit-jupiter-api:5.0.2"
+    compile group: 'com.google.guava', name: 'guava', version: '24.0-jre'
     compile "ognl:ognl:3.1.4"
 
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.0.2'

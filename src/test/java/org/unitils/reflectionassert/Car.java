@@ -19,11 +19,12 @@ package org.unitils.reflectionassert;
  * @author Filip Neven
  * @author Tim Ducheyne
  */
+@SuppressWarnings("ALL")
 public class Car {
 
-    private String brand;
+  private String brand;
 
-    public Car(String brand) {
-        this.brand = brand;
-    }
+  public Car(String brand) {
+    this.brand = brand;
+  }
 }

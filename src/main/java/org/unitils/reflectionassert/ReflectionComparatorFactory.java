@@ -15,13 +15,24 @@
  */
 package org.unitils.reflectionassert;
 
+import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
+import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_DATES;
+import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
+
+import com.google.common.collect.ImmutableSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.unitils.reflectionassert.comparator.Comparator;
-import org.unitils.reflectionassert.comparator.impl.*;
-
-import java.util.*;
-
-import static java.util.Arrays.asList;
-import static org.unitils.reflectionassert.ReflectionComparatorMode.*;
+import org.unitils.reflectionassert.comparator.impl.CollectionComparator;
+import org.unitils.reflectionassert.comparator.impl.HibernateProxyComparator;
+import org.unitils.reflectionassert.comparator.impl.IgnoreDefaultsComparator;
+import org.unitils.reflectionassert.comparator.impl.LenientDatesComparator;
+import org.unitils.reflectionassert.comparator.impl.LenientNumberComparator;
+import org.unitils.reflectionassert.comparator.impl.LenientOrderCollectionComparator;
+import org.unitils.reflectionassert.comparator.impl.MapComparator;
+import org.unitils.reflectionassert.comparator.impl.ObjectComparator;
+import org.unitils.reflectionassert.comparator.impl.SimpleCasesComparator;
 
 /**
  * A factory for creating a reflection comparator.
@@ -89,15 +100,21 @@ public class ReflectionComparatorFactory {
     protected static final Comparator OBJECT_COMPARATOR = new ObjectComparator();
 
 
+    //TODO: something about it
+    @Deprecated
+    public static ReflectionComparator createRefectionComparator(ReflectionComparatorMode... modes) {
+        return createRefectionComparator(ImmutableSet.copyOf(modes));
+    }
+
     /**
      * Creates a reflection comparator for the given modes.
      * If no mode is given, a strict comparator will be created.
      *
-     * @param modes The modes, null for strict comparison
+     * @param modes The modes, empty set for strict comparison
      * @return The reflection comparator, not null
      */
-    public static ReflectionComparator createRefectionComparator(ReflectionComparatorMode... modes) {
-        List<Comparator> comparators = getComparatorChain(new HashSet<>(asList(modes)));
+    public static ReflectionComparator createRefectionComparator(Set<ReflectionComparatorMode> modes) {
+        List<Comparator> comparators = getComparatorChain(modes);
         return new ReflectionComparator(comparators);
     }
 

@@ -15,7 +15,7 @@
  */
 package org.unitils.reflectionassert;
 
-import static org.unitils.reflectionassert.MoreReflectionAssertTest.assertFailing;
+import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;

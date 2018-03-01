@@ -22,18 +22,19 @@ import java.util.List;
  * @author Filip Neven
  * @author Tim Ducheyne
  */
+@SuppressWarnings("ALL")
 public class Person {
 
-    private String fName;
-    private String lName;
-    private String userName;
-    private List<Car> cars;
+  private String fName;
+  private String lName;
+  private String userName;
+  private List<Car> cars;
 
-    public Person(String fName, String lName, String userName, Car... cars) {
-        this.fName = fName;
-        this.lName = lName;
-        this.userName = userName;
-        this.cars = Arrays.asList(cars);
-    }
+  public Person(String fName, String lName, String userName, Car... cars) {
+    this.fName = fName;
+    this.lName = lName;
+    this.userName = userName;
+    this.cars = Arrays.asList(cars);
+  }
 
 }
