@@ -65,7 +65,9 @@ class ReflectionAssertionsTest {
         this::overriddenEquals,
         this::collections,
         this::optionals,
-        this::differentClasses
+        this::differentClasses,
+        this::oldDates,
+        this::java8Dates
     ).map(generator -> generator.generate(
         sample -> assertReflectiveThat(sample.actual).isEqualTo(sample.expected),
         sample -> assertFailing(
@@ -84,7 +86,9 @@ class ReflectionAssertionsTest {
         this::overriddenEquals,
         this::collections,
         this::optionals,
-        this::differentClasses
+        this::differentClasses,
+        this::oldDates,
+        this::java8Dates
     ).map(generator -> generator.generate(
         sample -> assertFailing(
             () -> assertReflectiveThat(sample.actual).isNotEqualTo(sample.expected)
@@ -104,7 +108,9 @@ class ReflectionAssertionsTest {
         this::collections,
         this::optionals,
         this::differentClasses,
-        this::lenientOrderCollections
+        this::lenientOrderCollections,
+        this::oldDates,
+        this::java8Dates
     ).map(generator -> generator.generate(
         sample -> assertLenientThat(sample.actual).isEqualTo(sample.expected),
         sample -> assertFailing(
@@ -124,7 +130,9 @@ class ReflectionAssertionsTest {
         this::collections,
         this::optionals,
         this::differentClasses,
-        this::lenientOrderCollections
+        this::lenientOrderCollections,
+        this::oldDates,
+        this::java8Dates
     ).map(generator -> generator.generate(
         sample -> assertFailing(
             () -> assertLenientThat(sample.actual).isNotEqualTo(sample.expected)
@@ -601,12 +609,53 @@ class ReflectionAssertionsTest {
     );
   }
 
+  private DynamicContainer oldDates(
+      ThrowingConsumer<Sample> whenEq,
+      ThrowingConsumer<Sample> whenNotEq
+  ) {
+    Calendar calendar1 = Calendar.getInstance();
+    calendar1.setTime(new Date(42));
+    Calendar calendar2 = Calendar.getInstance();
+    calendar2.setTime(new Date(42));
+
+    return dynamicContainer(
+        "Old 'java.util' Dates",
+        ImmutableList.of(
+            dynamicContainer(
+                "when equal",
+                cases(
+                    whenEq,
+                    $("dates", new Date(1337), new Date(1337)),
+                    $("date fields", new D(42, new Date(1337)), new D(42, new Date(1337))),
+                    $("calendars", calendar1, calendar2),
+                    $("null date fields", new D(42, null), new D(42, null))
+                )
+            ),
+            dynamicContainer(
+                "when not equal",
+                cases(
+                    whenNotEq,
+                    $("diff dates", new Date(), new Date(1337)),
+                    $("diff date fields", new D(42, new Date()), new D(42, new Date(1337))),
+                    $("diff calendars", calendar1, Calendar.getInstance()),
+                    $("null & date", null, new Date(1337)),
+                    $("date & null", new Date(), null),
+                    $("null & calendar", null, Calendar.getInstance()),
+                    $("calendar & null", Calendar.getInstance(), null),
+                    $("null & date field", new D(42, null), new D(42, new Date(1337))),
+                    $("date & null field", new D(42, new Date()), new D(42, null))
+                )
+            )
+        )
+    );
+  }
+
   private DynamicContainer lenientOldDates(
       ThrowingConsumer<Sample> whenEq,
       ThrowingConsumer<Sample> whenNotEq
   ) {
     return dynamicContainer(
-        "Old 'java.util' Dates",
+        "Lenient Old 'java.util' Dates",
         ImmutableList.of(
             dynamicContainer(
                 "when equal",
@@ -646,12 +695,84 @@ class ReflectionAssertionsTest {
     );
   }
 
-  private DynamicContainer lenientJava8Dates(
+  private DynamicContainer java8Dates(
       ThrowingConsumer<Sample> whenEq,
       ThrowingConsumer<Sample> whenNotEq
   ) {
     return dynamicContainer(
         "Java 8 Dates",
+        ImmutableList.of(
+            dynamicContainer(
+                "when equal",
+                cases(
+                    whenEq,
+                    $("instant", Instant.ofEpochMilli(111), Instant.ofEpochMilli(111)),
+                    $(
+                        "datetime",
+                        LocalDateTime.of(1917, Month.MARCH, 8, 0, 0),
+                        LocalDateTime.of(1917, Month.MARCH, 8, 0, 0)
+                    ),
+                    $(
+                        "instant fields",
+                        new J8Time(42, Instant.ofEpochMilli(12312)),
+                        new J8Time(42, Instant.ofEpochMilli(12312))
+                    ),
+                    $(
+                        "null datetime fields",
+                        new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0)),
+                        new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0))
+                    ),
+                    $("null temporal fields", new J8Time(42, null), new J8Time(42, null))
+                )
+            ),
+            dynamicContainer(
+                "when not equal",
+                cases(
+                    whenNotEq,
+                    $("diff instant", Instant.now(), Instant.ofEpochMilli(12312)),
+                    $(
+                        "diff datetime",
+                        LocalDateTime.now(),
+                        LocalDateTime.of(1917, Month.MARCH, 8, 0, 0)
+                    ),
+                    $(
+                        "diff instant fields",
+                        new J8Time(42, Instant.now()),
+                        new J8Time(42, Instant.ofEpochMilli(12312))
+                    ),
+                    $(
+                        "null datetime fields",
+                        new J8Time(42, LocalDateTime.now()),
+                        new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0))
+                    ),
+                    $("null & instant", null, Instant.now()),
+                    $("instant & null", Instant.now(), null),
+                    $("null & datetime", null, LocalDateTime.now()),
+                    $("datetime & null", LocalDateTime.now(), null),
+                    $("null & instant field", new J8Time(42, null), new J8Time(42, Instant.now())),
+                    $("instant & null field", new J8Time(42, Instant.now()), new J8Time(42, null)),
+                    $(
+                        "null & datetime field",
+                        new J8Time(42, null),
+                        new J8Time(42, LocalDateTime.now())
+                    ),
+                    $(
+                        "datetime & null field",
+                        new J8Time(42, LocalDateTime.now()),
+                        new J8Time(42, null)
+                    )
+                )
+            )
+        )
+    );
+  }
+
+  private DynamicContainer lenientJava8Dates(
+      ThrowingConsumer<Sample> whenEq,
+      ThrowingConsumer<Sample> whenNotEq
+  ) {
+    return dynamicContainer(
+        "Lenient Java 8 Dates",
         ImmutableList.of(
             dynamicContainer(
                 "when equal",
@@ -669,7 +790,7 @@ class ReflectionAssertionsTest {
                         new J8Time(42, Instant.ofEpochMilli(12312))
                     ),
                     $(
-                        "null datetime fields",
+                        "diff datetime fields",
                         new J8Time(42, LocalDateTime.now()),
                         new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0))
                     ),
@@ -747,6 +868,7 @@ class ReflectionAssertionsTest {
                         new C(new A(null), new B(4, 2, null))
                     ),
                     $("expected is null", null, "foo"),
+                    $("expected is null, actual is date", null, new Date()),
                     $("expected field is null", new Pair("a", null), new Pair("a", "b")),
                     $("all expected fields are null", new Pair(null, null), new Pair("a", null)),
                     $("all fields are null", new Pair(null, null), new Pair(null, null)),
@@ -764,6 +886,7 @@ class ReflectionAssertionsTest {
                 cases(
                     whenNotEq,
                     $("actual is null", new A("foobar"), null),
+                    $("actual is null, expected is date", new Date(), null),
                     $("actual field is null", new Pair("a", "b"), new Pair("a", null)),
                     $("actual field with default zero", new IntPair(13, 42), new IntPair(0, 42)),
                     $("all actual fields with default zero", new IntPair(13, 42), new IntPair(0, 0)),

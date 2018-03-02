@@ -16,6 +16,7 @@
 package org.unitils.reflectionassert.comparator.impl;
 
 import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
 import java.util.Date;
 import org.unitils.reflectionassert.ReflectionComparator;
 import org.unitils.reflectionassert.comparator.Comparator;
@@ -56,7 +57,7 @@ public class LenientDatesComparator implements Comparator {
   }
 
   private boolean isSupported(Object o) {
-    return o instanceof Date || o instanceof TemporalAccessor;
+    return o instanceof Date || o instanceof Calendar || o instanceof TemporalAccessor;
   }
 
   private boolean oneIsSupportedAndOtherIsNull(Object left, Object right) {
