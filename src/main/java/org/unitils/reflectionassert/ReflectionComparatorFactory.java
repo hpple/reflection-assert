@@ -128,11 +128,11 @@ public class ReflectionComparatorFactory {
      */
     protected static List<Comparator> getComparatorChain(Set<ReflectionComparatorMode> modes) {
         List<Comparator> comparatorChain = new ArrayList<Comparator>();
-        if (modes.contains(LENIENT_DATES)) {
-            comparatorChain.add(LENIENT_DATES_COMPARATOR);
-        }
         if (modes.contains(IGNORE_DEFAULTS)) {
             comparatorChain.add(IGNORE_DEFAULTS_COMPARATOR);
+        }
+        if (modes.contains(LENIENT_DATES)) {
+            comparatorChain.add(LENIENT_DATES_COMPARATOR);
         }
         comparatorChain.add(LENIENT_NUMBER_COMPARATOR);
         comparatorChain.add(SIMPLE_CASES_COMPARATOR);

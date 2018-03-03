@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
@@ -235,10 +234,64 @@ class ReflectionAssertionsTest {
     ));
   }
 
-  @Disabled("not impl yet")
   @TestFactory
-  Stream<? extends DynamicNode> complexModes() {
-    throw new UnsupportedOperationException("not impl yet");
+  @DisplayName("Complex Mode Equals")
+  Stream<? extends DynamicNode> complexModesEquals() {
+    return Stream.<Generator>of(
+        this::simple,
+        this::equivalence,
+        this::overriddenEquals,
+        this::collections,
+        this::lenientOrderCollections,
+        this::differentClasses,
+        this::withDefaults
+    ).map(generator -> generator.generate(
+        sample -> assertReflective()
+            .withLenientDates()
+            .withLenientOrder()
+            .withIgnoreDefaults()
+            .that(sample.actual)
+            .isEqualTo(sample.expected),
+        sample -> assertFailing(
+            () -> assertReflective()
+                .withLenientDates()
+                .withLenientOrder()
+                .withIgnoreDefaults()
+                .that(sample.actual)
+                .isEqualTo(sample.expected)
+        )
+    ));
+
+  }
+
+  @TestFactory
+  @DisplayName("Complex Mode Not Equals")
+  Stream<? extends DynamicNode> complexModesNotEquals() {
+    return Stream.<Generator>of(
+        this::simple,
+        this::equivalence,
+        this::overriddenEquals,
+        this::collections,
+        this::lenientOrderCollections,
+        this::differentClasses,
+        this::withDefaults
+    ).map(generator -> generator.generate(
+        sample -> assertFailing(
+            () -> assertReflective()
+                .withLenientDates()
+                .withLenientOrder()
+                .withIgnoreDefaults()
+                .that(sample.actual)
+                .isNotEqualTo(sample.expected)
+        ),
+        sample -> assertReflective()
+            .withLenientDates()
+            .withLenientOrder()
+            .withIgnoreDefaults()
+            .that(sample.actual)
+            .isNotEqualTo(sample.expected)
+    ));
+
   }
 
 
@@ -718,7 +771,7 @@ class ReflectionAssertionsTest {
                         new J8Time(42, Instant.ofEpochMilli(12312))
                     ),
                     $(
-                        "null datetime fields",
+                        "datetime fields",
                         new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0)),
                         new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0))
                     ),
@@ -853,6 +906,11 @@ class ReflectionAssertionsTest {
       ThrowingConsumer<Sample> whenEq,
       ThrowingConsumer<Sample> whenNotEq
   ) {
+    Calendar calendar1 = Calendar.getInstance();
+    calendar1.setTime(new Date(42));
+    Calendar calendar2 = Calendar.getInstance();
+    calendar2.setTime(new Date(42));
+
     return dynamicContainer(
         "With Defaults",
         ImmutableList.of(
@@ -868,7 +926,38 @@ class ReflectionAssertionsTest {
                         new C(new A(null), new B(4, 2, null))
                     ),
                     $("expected is null", null, "foo"),
+                    $("dates", new Date(1337), new Date(1337)),
+                    $("date fields", new D(42, new Date(1337)), new D(42, new Date(1337))),
+                    $("calendars", calendar1, calendar2),
+                    $("null date fields", new D(42, null), new D(42, null)),
+                    $("instant", Instant.ofEpochMilli(111), Instant.ofEpochMilli(111)),
+                    $(
+                        "datetime",
+                        LocalDateTime.of(1917, Month.MARCH, 8, 0, 0),
+                        LocalDateTime.of(1917, Month.MARCH, 8, 0, 0)
+                    ),
+                    $(
+                        "instant fields",
+                        new J8Time(42, Instant.ofEpochMilli(12312)),
+                        new J8Time(42, Instant.ofEpochMilli(12312))
+                    ),
+                    $(
+                        "datetime fields",
+                        new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0)),
+                        new J8Time(42, LocalDateTime.of(1917, Month.MARCH, 8, 0, 0))
+                    ),
+                    $("null temporal fields", new J8Time(42, null), new J8Time(42, null)),
                     $("expected is null, actual is date", null, new Date()),
+                    $("expected is null, actual is calendar", null, Calendar.getInstance()),
+                    $("null & instant", null, Instant.now()),
+                    $("null & datetime", null, LocalDateTime.now()),
+                    $("null & date field", new D(42, null), new D(42, new Date(1337))),
+                    $("null & instant field", new J8Time(42, null), new J8Time(42, Instant.now())),
+                    $(
+                        "null & datetime field",
+                        new J8Time(42, null),
+                        new J8Time(42, LocalDateTime.now())
+                    ),
                     $("expected field is null", new Pair("a", null), new Pair("a", "b")),
                     $("all expected fields are null", new Pair(null, null), new Pair("a", null)),
                     $("all fields are null", new Pair(null, null), new Pair(null, null)),
@@ -887,6 +976,16 @@ class ReflectionAssertionsTest {
                     whenNotEq,
                     $("actual is null", new A("foobar"), null),
                     $("actual is null, expected is date", new Date(), null),
+                    $("actual is null, expected is calendar", Calendar.getInstance(), null),
+                    $("date field & null", new D(42, new Date(1337)), new D(42, null)),
+                    $("instant & null", Instant.now(), null),
+                    $("datetime & null", LocalDateTime.now(), null),
+                    $("instant & null field", new J8Time(42, Instant.now()), new J8Time(42, null)),
+                    $(
+                        "datetime field & null",
+                        new J8Time(42, LocalDateTime.now()),
+                        new J8Time(42, null)
+                    ),
                     $("actual field is null", new Pair("a", "b"), new Pair("a", null)),
                     $("actual field with default zero", new IntPair(13, 42), new IntPair(0, 42)),
                     $("all actual fields with default zero", new IntPair(13, 42), new IntPair(0, 0)),
