@@ -1,6 +1,9 @@
 Reflection Assert for JUnit 5
 =======
 
+[![Release](https://jitpack.io/v/hpple/reflection-assert.svg)](https://jitpack.io/#hpple/reflection-assert)
+[![Build Status](https://travis-ci.org/hpple/reflection-assert.svg?branch=master)](https://travis-ci.org/hpple/reflection-assert)
+
 Fork of reflection assert from Unitils (http://www.unitils.org) compatible with JUnit 5.
 
 Dependency
