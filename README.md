@@ -6,6 +6,23 @@ Reflection Assert for JUnit 5
 
 Fork of reflection assert from Unitils (http://www.unitils.org) compatible with JUnit 5.
 
+Usage
+----------------
+Assert that two objects are equal using reflection for field-by-field comparision:
+
+```java
+assertReflectiveThat(actual).isEqualTo(expected);
+```
+Same, but ignoring order for collections:
+
+```java
+assertLenientThat(actual).isEqualTo(expected);
+```
+Or assert that two objects are not equal providing custom message:
+```java
+assertReflective().withMessage("message").that(actual).isNotEqualTo(unexpected);
+```
+
 Dependency
 ----------------
 
