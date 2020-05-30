@@ -25,6 +25,24 @@ subprojects {
         testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
     }
 
+    javadoc {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
+
     test {
         useJUnitPlatform()
     }
