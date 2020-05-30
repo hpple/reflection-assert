@@ -1,32 +1,27 @@
-group 'com.github.reflectionassert'
-version '0.1'
-
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+ext {
+    junitVersion = '5.6.2'
+    guavaVersion = '25.1-jre'
+    ognlVersion = '3.1.4'
 }
 
-buildscript {
-    ext {
-        junitVersion = '5.6.2'
-        guavaVersion = '25.1-jre'
-        ognlVersion = '3.1.4'
+subprojects {
+    group 'com.github.reflectionassert'
+    version '0.2'
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
     }
-}
 
-dependencies {
-    compileOnly group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
-    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
-    compile group: 'ognl', name: 'ognl', version: ognlVersion
+    compileJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitVersion
-    testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
-}
-
-test {
-    useJUnitPlatform()
+    dependencies {
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitVersion
+        testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+    }
 }
