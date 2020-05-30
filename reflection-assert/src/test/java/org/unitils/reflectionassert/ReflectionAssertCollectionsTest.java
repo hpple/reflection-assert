@@ -60,7 +60,7 @@ class ReflectionAssertCollectionsTest {
    * Initializes the test fixture.
    */
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     listA = Arrays.asList("el1", "el2");
     listB = Arrays.asList("el1", "el2");
     listDifferentOrder = Arrays.asList("el2", "el1");

@@ -39,7 +39,7 @@ class ReflectionAssertPropertiesTest {
    * Initializes the test fixture.
    */
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     testObject = new TestObject(1, "stringValue");
   }
 

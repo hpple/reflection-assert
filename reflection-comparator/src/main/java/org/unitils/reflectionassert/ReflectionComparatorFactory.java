@@ -36,7 +36,7 @@ import org.unitils.reflectionassert.comparator.impl.SimpleCasesComparator;
 
 /**
  * A factory for creating a reflection comparator.
- * This will assemble the apropriate comparator chain and constructs a reflection comparator.
+ * This will assemble the appropriate comparator chain and constructs a reflection comparator.
  * <p/>
  * By default, a strict comparison is performed, but if needed, some leniency can be configured by setting one or more
  * comparator modes: <ul>
@@ -55,53 +55,57 @@ import org.unitils.reflectionassert.comparator.impl.SimpleCasesComparator;
 public class ReflectionComparatorFactory {
 
     /**
-     * The LenientDatesComparator singleton insance
+     * The LenientDatesComparator singleton instance
      */
     protected static final Comparator LENIENT_DATES_COMPARATOR = new LenientDatesComparator();
 
     /**
-     * The IgnoreDefaultsComparator singleton insance
+     * The IgnoreDefaultsComparator singleton instance
      */
     protected static final Comparator IGNORE_DEFAULTS_COMPARATOR = new IgnoreDefaultsComparator();
 
     /**
-     * The LenientNumberComparator singleton insance
+     * The LenientNumberComparator singleton instance
      */
     protected static final Comparator LENIENT_NUMBER_COMPARATOR = new LenientNumberComparator();
 
     /**
-     * The SimpleCasesComparatorsingleton insance
+     * The SimpleCasesComparator singleton instance
      */
     protected static final Comparator SIMPLE_CASES_COMPARATOR = new SimpleCasesComparator();
 
     /**
-     * The LenientOrderCollectionComparator singleton insance
+     * The LenientOrderCollectionComparator singleton instance
      */
     protected static final Comparator LENIENT_ORDER_COMPARATOR = new LenientOrderCollectionComparator();
 
     /**
-     * The CollectionComparator singleton insance
+     * The CollectionComparator singleton instance
      */
     protected static final Comparator COLLECTION_COMPARATOR = new CollectionComparator();
 
     /**
-     * The MapComparator singleton insance
+     * The MapComparator singleton instance
      */
     protected static final Comparator MAP_COMPARATOR = new MapComparator();
 
     /**
-     * The HibernateProxyComparator singleton insance
+     * The HibernateProxyComparator singleton instance
      */
     protected static final Comparator HIBERNATE_PROXY_COMPARATOR = new HibernateProxyComparator();
 
     /**
-     * The ObjectComparator singleton insance
+     * The ObjectComparator singleton instance
      */
     protected static final Comparator OBJECT_COMPARATOR = new ObjectComparator();
 
-
-    //TODO: something about it
-    @Deprecated
+    /**
+     * Creates a reflection comparator for the given modes.
+     * If no mode is given, a strict comparator will be created.
+     *
+     * @param modes The modes, empty for strict comparison
+     * @return The reflection comparator, not null
+     */
     public static ReflectionComparator createRefectionComparator(ReflectionComparatorMode... modes) {
         return createRefectionComparator(ImmutableSet.copyOf(modes));
     }

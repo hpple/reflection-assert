@@ -43,7 +43,7 @@ class ReflectionAssertAssertPropertiesNotNullTest {
   }
 
   @Test
-  public void assertAccessablePropertiesNotNull_exceptionInvoke() {
+  void assertAccessablePropertiesNotNull_exceptionInvoke() {
     TestObject2 obj = new TestObject2(25);
     assertThrows(UnitilsException.class, () ->
         assertAccessablePropertiesNotNull("Fields are not accessible", obj)

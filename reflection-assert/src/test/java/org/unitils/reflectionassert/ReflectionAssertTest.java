@@ -68,7 +68,7 @@ class ReflectionAssertTest {
    * Initializes the test fixture.
    */
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     testObjectAString = new TestObjectString("test 1", "test 2");
     testObjectBString = new TestObjectString("test 1", "test 2");
     testObjectDifferentValueString = new TestObjectString("test 1", "XXXXXX");

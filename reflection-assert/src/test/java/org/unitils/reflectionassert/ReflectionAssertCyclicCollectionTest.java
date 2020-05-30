@@ -44,7 +44,7 @@ class ReflectionAssertCyclicCollectionTest {
    * Initializes the test fixture.
    */
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     testObjectA = createTestObject();
     testObjectB = createTestObject();
   }

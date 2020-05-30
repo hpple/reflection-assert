@@ -43,7 +43,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    * Initializes the test fixture.
    */
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     list = asList(new TestObject(1L, "el1"), new TestObject(2L, "el2"));
   }
 
