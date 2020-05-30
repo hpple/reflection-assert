@@ -24,4 +24,8 @@ subprojects {
         testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitVersion
         testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
