@@ -15,10 +15,8 @@
  */
 package org.unitils.reflectionassert;
 
-import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyReflectionEquals;
-import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,7 +92,7 @@ class ReflectionAssertPropertiesTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsDifferentValues() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", "xxxxxx", testObject)
     );
   }
@@ -104,7 +102,7 @@ class ReflectionAssertPropertiesTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_leftNull() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", null, testObject)
     );
   }
@@ -116,7 +114,7 @@ class ReflectionAssertPropertiesTest {
   @Test
   void testAssertPropertyReflectionEquals_rightNull() {
     testObject.setStringProperty(null);
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", "stringValue", testObject)
     );
   }
@@ -127,7 +125,7 @@ class ReflectionAssertPropertiesTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_actualObjectNull() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyReflectionEquals("aProperty", "aValue", null)
     );
   }
@@ -153,7 +151,7 @@ class ReflectionAssertPropertiesTest {
         "stringProperty",
         null,
         testObject,
-        IGNORE_DEFAULTS
+        ReflectionComparatorMode.IGNORE_DEFAULTS
     );
   }
 

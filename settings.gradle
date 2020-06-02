@@ -1,2 +1,4 @@
 include 'reflection-comparator'
 include 'reflection-assert'
+include 'reflection-assert-vintage'
+

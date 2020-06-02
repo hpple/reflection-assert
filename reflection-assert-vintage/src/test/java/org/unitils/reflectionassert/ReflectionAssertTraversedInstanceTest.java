@@ -15,7 +15,6 @@
  */
 package org.unitils.reflectionassert;
 
-import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ class ReflectionAssertTraversedInstanceTest {
     root2.getChildren2().add(child2);
 
     // Should fail
-    assertFailing(() -> assertLenientEquals(root1, root2));
+    MoreAssertions.assertFailing(() -> assertLenientEquals(root1, root2));
   }
 
 

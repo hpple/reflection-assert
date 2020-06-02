@@ -15,14 +15,11 @@
  */
 package org.unitils.reflectionassert;
 
-import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertiesNotNull;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
-import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
-import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -113,7 +110,7 @@ class ReflectionAssertTest {
    */
   @Test
   void testAssertReflectionEquals_notEqualsDifferentValues() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(testObjectAString, testObjectDifferentValueString)
     );
   }
@@ -123,7 +120,7 @@ class ReflectionAssertTest {
    */
   @Test
   void testAssertReflectionEquals_leftNull() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(null, testObjectAString)
     );
   }
@@ -133,7 +130,7 @@ class ReflectionAssertTest {
    */
   @Test
   void testAssertReflectionEquals_rightNull() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(testObjectAString, null)
     );
   }
@@ -154,7 +151,7 @@ class ReflectionAssertTest {
     assertReflectionEquals(
         asList("element1", "element2", "element3"),
         asList("element3", "element1", "element2"),
-        LENIENT_ORDER
+        ReflectionComparatorMode.LENIENT_ORDER
     );
   }
 
@@ -166,8 +163,8 @@ class ReflectionAssertTest {
     assertReflectionEquals(
         asSet(testObjectAString, testObjectAIntString),
         asSet(testObjectBIntString, testObjectBString),
-        LENIENT_ORDER,
-        IGNORE_DEFAULTS
+        ReflectionComparatorMode.LENIENT_ORDER,
+        ReflectionComparatorMode.IGNORE_DEFAULTS
     );
   }
 
@@ -190,7 +187,7 @@ class ReflectionAssertTest {
     testObjectAString.setString1(null);
     testObjectBString.setString1("xxxxxx");
 
-    assertReflectionEquals(testObjectAString, testObjectBString, IGNORE_DEFAULTS);
+    assertReflectionEquals(testObjectAString, testObjectBString, ReflectionComparatorMode.IGNORE_DEFAULTS);
   }
 
   /**
@@ -229,7 +226,7 @@ class ReflectionAssertTest {
 
   @Test
   void assertPropertiesNotNullTestFail() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertiesNotNull(
             "properties childobject ar not fully set",
             new TestObjectString(null, "")

@@ -1,6 +1,5 @@
 package org.unitils.reflectionassert;
 
-import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.unitils.reflectionassert.ReflectionAssert.assertAccessablePropertiesNotNull;
 
@@ -22,7 +21,7 @@ class ReflectionAssertAssertPropertiesNotNullTest {
   void assertAccessablePropertiesNotNullTest_missingPublicProtected_and_PrivateVariables() {
     TestObject childObject1 = new TestObject("child");
 
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertAccessablePropertiesNotNull(
             "Accessable properties childobject ar not fully set",
             childObject1

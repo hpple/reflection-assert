@@ -3,4 +3,5 @@ dependencies {
 
     compileOnly group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+    compile group: 'ognl', name: 'ognl', version: ognlVersion
 }

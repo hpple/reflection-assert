@@ -18,6 +18,7 @@
 package org.unitils.reflectionassert;
 
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
@@ -29,7 +30,6 @@ import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import ognl.DefaultMemberAccess;
 import ognl.Ognl;
 import ognl.OgnlContext;
@@ -340,7 +340,7 @@ public class ReflectionAssert {
         assertNotNull(actualObjects, "Actual object list is null.");
         Collection<?> actualPropertyValues = actualObjects.stream()
                 .map(new OgnlTransformer(propertyName))
-                .collect(Collectors.toList());
+                .collect(toList());
         assertReflectionEquals(message, expectedPropertyValues, actualPropertyValues, modes);
     }
 

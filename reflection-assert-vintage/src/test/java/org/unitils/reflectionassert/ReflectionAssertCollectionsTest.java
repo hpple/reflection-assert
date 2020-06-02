@@ -15,10 +15,8 @@
  */
 package org.unitils.reflectionassert;
 
-import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
-import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +83,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertReflectionEquals_notEqualsDifferentOrder() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(listA, listDifferentOrder)
     );
   }
@@ -96,7 +94,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertReflectionEquals_equalsDifferentOrder() {
-    assertReflectionEquals(listA, listDifferentOrder, LENIENT_ORDER);
+    assertReflectionEquals(listA, listDifferentOrder, ReflectionComparatorMode.LENIENT_ORDER);
   }
 
 
@@ -114,7 +112,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_differentListSameSize() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(listA, listDifferentValues)
     );
   }
@@ -125,7 +123,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_duplicateElement() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(listA, listDuplicateElement)
     );
   }
@@ -136,7 +134,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_oneElementLess() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(listA, listOneElementLess)
     );
   }
@@ -147,7 +145,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_oneElementMore() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertReflectionEquals(listA, listOneElementMore)
     );
   }

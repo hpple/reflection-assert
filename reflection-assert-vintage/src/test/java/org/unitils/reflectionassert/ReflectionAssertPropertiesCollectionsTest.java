@@ -15,11 +15,9 @@
  */
 package org.unitils.reflectionassert;
 
-import static com.github.reflectionassert.MoreAssertions.assertFailing;
 import static java.util.Arrays.asList;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyReflectionEquals;
-import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +69,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsDifferentValues() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", asList("xxxxx", "xxxxx"), list)
     );
   }
@@ -82,7 +80,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_equalsDifferentOrder() {
-    assertPropertyReflectionEquals("stringProperty", asList("el1", "el2"), list, LENIENT_ORDER);
+    assertPropertyReflectionEquals("stringProperty", asList("el1", "el2"), list, ReflectionComparatorMode.LENIENT_ORDER);
   }
 
 
@@ -100,7 +98,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsDifferentOrder() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", asList("el2", "el1"), list)
     );
   }
@@ -120,7 +118,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsPrimitivesList() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyLenientEquals("primitiveProperty", asList(999, 1), list)
     );
   }
@@ -131,7 +129,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_actualObjectNull() {
-    assertFailing(() ->
+    MoreAssertions.assertFailing(() ->
         assertPropertyLenientEquals("stringProperty", asList(1, 2), null)
     );
   }
