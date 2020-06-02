@@ -1,23 +1,25 @@
 package com.github.reflectionassert;
 
+import static java.util.Collections.emptySet;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_DATES;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 import org.unitils.reflectionassert.ReflectionComparatorMode;
 
 public final class ModePhase {
 
   private final Optional<String> message;
-  private final ImmutableSet<ReflectionComparatorMode> modes;
+  private final Set<ReflectionComparatorMode> modes;
 
   ModePhase() {
-    this(Optional.empty(), ImmutableSet.of());
+    this(Optional.empty(), emptySet());
   }
 
-  private ModePhase(Optional<String> message, ImmutableSet<ReflectionComparatorMode> modes) {
+  private ModePhase(Optional<String> message, Set<ReflectionComparatorMode> modes) {
     this.message = message;
     this.modes = modes;
   }
@@ -38,10 +40,7 @@ public final class ModePhase {
   private ModePhase with(ReflectionComparatorMode mode) {
     return new ModePhase(
         message,
-        ImmutableSet.<ReflectionComparatorMode>builder()
-            .addAll(modes)
-            .add(mode)
-            .build()
+        EnumSet.of(mode, modes.toArray(new ReflectionComparatorMode[]{}))
     );
   }
 

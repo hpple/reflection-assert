@@ -23,6 +23,8 @@ subprojects {
         testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
         testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitVersion
         testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+
+        testCompile group: 'com.google.guava', name: 'guava', version: guavaVersion
     }
 
     javadoc {

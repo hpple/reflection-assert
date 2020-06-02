@@ -3,8 +3,8 @@ package com.github.reflectionassert;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
 
-import com.google.common.collect.ImmutableSet;
 import java.util.Optional;
+import java.util.Set;
 import org.opentest4j.AssertionFailedError;
 import org.unitils.core.util.ObjectFormatter;
 import org.unitils.reflectionassert.ReflectionComparator;
@@ -17,12 +17,12 @@ public final class OperationPhase {
 
   private final Object actual;
   private final Optional<String> message;
-  private final ImmutableSet<ReflectionComparatorMode> modes;
+  private final Set<ReflectionComparatorMode> modes;
 
   OperationPhase(
       Object actual,
       Optional<String> message,
-      ImmutableSet<ReflectionComparatorMode> modes
+      Set<ReflectionComparatorMode> modes
   ) {
     this.actual = actual;
     this.message = message;

@@ -15,12 +15,14 @@
  */
 package org.unitils.reflectionassert;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_DATES;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
-import com.google.common.collect.ImmutableSet;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import org.unitils.reflectionassert.comparator.Comparator;
@@ -106,8 +108,14 @@ public class ReflectionComparatorFactory {
      * @param modes The modes, empty for strict comparison
      * @return The reflection comparator, not null
      */
-    public static ReflectionComparator createRefectionComparator(ReflectionComparatorMode... modes) {
-        return createRefectionComparator(ImmutableSet.copyOf(modes));
+    public static ReflectionComparator createRefectionComparator(
+        ReflectionComparatorMode... modes
+    ) {
+        return createRefectionComparator(
+            modes == null || modes.length == 0
+                ? emptySet()
+                : EnumSet.copyOf(asList(modes))
+        );
     }
 
     /**
@@ -121,7 +129,6 @@ public class ReflectionComparatorFactory {
         List<Comparator> comparators = getComparatorChain(modes);
         return new ReflectionComparator(comparators);
     }
-
 
     /**
      * Creates a comparator chain for the given modes.
