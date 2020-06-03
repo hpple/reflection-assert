@@ -26,33 +26,34 @@ import org.unitils.reflectionassert.report.DifferenceView;
  */
 public class SimpleDifferenceView implements DifferenceView {
 
-    private ObjectFormatter objectFormatter = new ObjectFormatter();
+  private static final int ASSERTION_ERROR_FQCN_LENGTH =
+      "org.opentest4j.AssertionFailedError".length();
 
-    /**
-     * Creates a string representation of the given difference tree.
-     *
-     * @param difference The root difference, not null
-     * @return The string representation, not null
-     */
-    public String createView(Difference difference) {
-        String expectedStr = objectFormatter.format(difference.getLeftValue());
-        String actualStr = objectFormatter.format(difference.getRightValue());
-        String formattedOnOneLine = formatOnOneLine(expectedStr, actualStr);
-        if ("org.opentest4j.AssertionFailedError".length() + 2  + formattedOnOneLine.length() < MAX_LINE_SIZE) {
-            return formattedOnOneLine;
-        } else {
-            return formatOnTwoLines(expectedStr, actualStr);
-        }
-    }
+  private final ObjectFormatter objectFormatter = new ObjectFormatter();
 
-    protected String formatOnOneLine(String expectedStr, String actualStr) {
-        return new StringBuilder().append("Expected: ").append(expectedStr).append(", actual: ").append(actualStr).toString();
+  /**
+   * Creates a string representation of the given difference tree.
+   *
+   * @param difference The root difference, not null
+   * @return The string representation, not null
+   */
+  @Override
+  public final String createView(Difference difference) {
+    String expectedStr = objectFormatter.format(difference.getLeftValue());
+    String actualStr = objectFormatter.format(difference.getRightValue());
+    String formattedOnOneLine = formatOnOneLine(expectedStr, actualStr);
+    if (ASSERTION_ERROR_FQCN_LENGTH + 2 + formattedOnOneLine.length() < MAX_LINE_SIZE) {
+      return formattedOnOneLine;
+    } else {
+      return formatOnTwoLines(expectedStr, actualStr);
     }
+  }
 
-    protected String formatOnTwoLines(String expectedStr, String actualStr) {
-        StringBuilder result = new StringBuilder();
-        result.append("\nExpected: ").append(expectedStr);
-        result.append("\n  Actual: ").append(actualStr);
-        return result.toString();
-    }
+  protected String formatOnOneLine(String expectedStr, String actualStr) {
+    return "Expected: " + expectedStr + ", actual: " + actualStr;
+  }
+
+  protected String formatOnTwoLines(String expectedStr, String actualStr) {
+    return "\nExpected: " + expectedStr + "\n  Actual: " + actualStr;
+  }
 }

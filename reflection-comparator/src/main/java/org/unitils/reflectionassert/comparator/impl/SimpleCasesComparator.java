@@ -45,6 +45,7 @@ public class SimpleCasesComparator implements Comparator {
    * @param right The right object
    * @return True for simple cases
    */
+  @Override
   public boolean canCompare(Object left, Object right) {
     if (left == right) {
       return true;
@@ -82,6 +83,7 @@ public class SimpleCasesComparator implements Comparator {
    * @param reflectionComparator The root comparator for inner comparisons, not null
    * @return A Difference if both values are different, null otherwise
    */
+  @Override
   public Difference compare(
       Object left,
       Object right,

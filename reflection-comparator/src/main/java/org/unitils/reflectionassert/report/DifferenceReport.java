@@ -25,13 +25,12 @@ import org.unitils.reflectionassert.difference.Difference;
  */
 public interface DifferenceReport {
 
-
-    /**
-     * Creates a report.
-     *
-     * @param difference The difference to output, null for a match
-     * @return The report, not null
-     */
-    public String createReport(Difference difference);
+  /**
+   * Creates a report.
+   *
+   * @param difference The difference to output, null for a match
+   * @return The report, not null
+   */
+  String createReport(Difference difference);
 
 }

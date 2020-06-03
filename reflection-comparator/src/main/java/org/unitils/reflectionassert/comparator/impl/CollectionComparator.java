@@ -15,7 +15,7 @@
  */
 package org.unitils.reflectionassert.comparator.impl;
 
-import static org.unitils.util.CollectionUtils.convertToCollection;
+import static org.unitils.reflectionassert.comparator.impl.CollectionConverter.convertToCollection;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,9 +27,8 @@ import org.unitils.reflectionassert.difference.CollectionDifference;
 import org.unitils.reflectionassert.difference.Difference;
 
 /**
- * Comparator for collections and arrays.
- * All elements are compared in the same order, i.e. element 1 of the left collection with element 1 of the
- * right collection and so on.
+ * Comparator for collections and arrays. All elements are compared in the same order, i.e. element
+ * 1 of the left collection with element 1 of the right collection and so on.
  *
  * @author Tim Ducheyne
  * @author Filip Neven
@@ -37,71 +36,91 @@ import org.unitils.reflectionassert.difference.Difference;
 public class CollectionComparator implements Comparator {
 
 
-    /**
-     * Returns true when both objects are arrays or collections.
-     *
-     * @param left  The left object
-     * @param right The right object
-     * @return True in case of arrays/collections
-     */
-    public boolean canCompare(Object left, Object right) {
-        if (left == null || right == null) {
-            return false;
-        }
-        if ((left.getClass().isArray() || left instanceof Collection) && (right.getClass().isArray() || right instanceof Collection)) {
-            return true;
-        }
-        return false;
+  /**
+   * Returns true when both objects are arrays or collections.
+   *
+   * @param left The left object
+   * @param right The right object
+   * @return True in case of arrays/collections
+   */
+  @Override
+  public boolean canCompare(Object left, Object right) {
+    if (left == null || right == null) {
+      return false;
     }
 
+    return isSupported(left) && isSupported(right);
+  }
 
-    /**
-     * Compared the given collections/arrays.
-     *
-     * @param left                 The left collection/array, not null
-     * @param right                The right collection/array, not null
-     * @param onlyFirstDifference  True if only the first difference should be returned
-     * @param reflectionComparator The root comparator for inner comparisons, not null
-     * @return A CollectionDifference or null if both collections are equal
-     */
-    public Difference compare(Object left, Object right, boolean onlyFirstDifference, ReflectionComparator reflectionComparator) {
-        // Convert to list and compare as collection
-        List<Object> leftList = new ArrayList<Object>(convertToCollection(left));
-        List<Object> rightList = new ArrayList<Object>(convertToCollection(right));
+  private boolean isSupported(Object o) {
+    return o.getClass().isArray() || o instanceof Collection;
+  }
 
-        int elementIndex = -1;
-        CollectionDifference difference = new CollectionDifference("Different elements", left, right, leftList, rightList);
+  /**
+   * Compared the given collections/arrays.
+   *
+   * @param left The left collection/array, not null
+   * @param right The right collection/array, not null
+   * @param onlyFirstDifference True if only the first difference should be returned
+   * @param reflectionComparator The root comparator for inner comparisons, not null
+   * @return A CollectionDifference or null if both collections are equal
+   */
+  @Override
+  public Difference compare(
+      Object left,
+      Object right,
+      boolean onlyFirstDifference,
+      ReflectionComparator reflectionComparator
+  ) {
+    // Convert to list and compare as collection
+    List<Object> leftList = new ArrayList<>(convertToCollection(left));
+    List<Object> rightList = new ArrayList<>(convertToCollection(right));
 
-        Iterator<?> leftIterator = leftList.iterator();
-        Iterator<?> rightIterator = rightList.iterator();
-        while (leftIterator.hasNext() && rightIterator.hasNext()) {
-            elementIndex++;
+    int elementIndex = -1;
+    CollectionDifference difference = new CollectionDifference(
+        "Different elements",
+        left,
+        right,
+        leftList,
+        rightList
+    );
 
-            Difference elementDifference = reflectionComparator.getDifference(leftIterator.next(), rightIterator.next(), onlyFirstDifference);
-            if (elementDifference != null) {
-                difference.addElementDifference(elementIndex, elementDifference);
-                if (onlyFirstDifference) {
-                    return difference;
-                }
-            }
+    Iterator<?> leftIterator = leftList.iterator();
+    Iterator<?> rightIterator = rightList.iterator();
+    while (leftIterator.hasNext() && rightIterator.hasNext()) {
+      elementIndex++;
+
+      Difference elementDifference = reflectionComparator
+          .getDifference(leftIterator.next(), rightIterator.next(), onlyFirstDifference);
+      if (elementDifference != null) {
+        difference.addElementDifference(elementIndex, elementDifference);
+        if (onlyFirstDifference) {
+          return difference;
         }
-
-        // check for missing elements 
-        int leftElementIndex = elementIndex;
-        while (leftIterator.hasNext()) {
-            leftIterator.next();
-            difference.addLeftMissingIndex(++leftElementIndex);
-        }
-        int rightElementIndex = elementIndex;
-        while (rightIterator.hasNext()) {
-            rightIterator.next();
-            difference.addRightMissingIndex(++rightElementIndex);
-        }
-
-        if (difference.getElementDifferences().isEmpty() && difference.getLeftMissingIndexes().isEmpty() && difference.getRightMissingIndexes().isEmpty()) {
-            return null;
-        }
-        return difference;
+      }
     }
+
+    // check for missing elements
+    int leftElementIndex = elementIndex;
+    while (leftIterator.hasNext()) {
+      leftIterator.next();
+      difference.addLeftMissingIndex(++leftElementIndex);
+    }
+    int rightElementIndex = elementIndex;
+    while (rightIterator.hasNext()) {
+      rightIterator.next();
+      difference.addRightMissingIndex(++rightElementIndex);
+    }
+
+    if (
+        difference.getElementDifferences().isEmpty()
+            && difference.getLeftMissingIndexes().isEmpty()
+            && difference.getRightMissingIndexes().isEmpty()
+    ) {
+      return null;
+    }
+
+    return difference;
+  }
 
 }

@@ -27,12 +27,12 @@ import org.unitils.reflectionassert.difference.Difference;
 public interface DifferenceView {
 
 
-    /**
-     * Creates a string representation of the given difference tree.
-     *
-     * @param difference The root difference, not null
-     * @return The string representation, not null
-     */
-    String createView(Difference difference);
+  /**
+   * Creates a string representation of the given difference tree.
+   *
+   * @param difference The root difference, not null
+   * @return The string representation, not null
+   */
+  String createView(Difference difference);
 
 }

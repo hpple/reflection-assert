@@ -53,7 +53,7 @@ public class ArrayAndCollectionFormatter {
      * @param currentDepth The current recursion depth
      * @param result       The builder to append the result to, not null
      */
-    public void formatArray(Object array, int currentDepth, StringBuilder result) {
+    void formatArray(Object array, int currentDepth, StringBuilder result) {
         if (array instanceof byte[]) {
             formatByteArray((byte[]) array, result);
             return;

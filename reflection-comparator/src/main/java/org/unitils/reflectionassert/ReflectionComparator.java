@@ -26,128 +26,137 @@ import org.unitils.reflectionassert.difference.Difference;
 /**
  * A comparator for comparing two values by reflection.
  * <p/>
- * The actual comparison of the values is implemented as a comparator chain. The chain is passed as an argument
- * during the construction. Each of the comparators in the chain is able to compare some types of values. E.g.
- * a CollectionComparator is able to compare collections, simple values such as integers are compared by the
- * SimpleCasesComparator...  A number of 'leniency levels' can also be added to the chain: e.g. the
- * LenientOrderCollectionComparator ignores the actual ordering of 2 collections.
+ * The actual comparison of the values is implemented as a comparator chain. The chain is passed as
+ * an argument during the construction. Each of the comparators in the chain is able to compare some
+ * types of values. E.g. a CollectionComparator is able to compare collections, simple values such
+ * as integers are compared by the SimpleCasesComparator...  A number of 'leniency levels' can also
+ * be added to the chain: e.g. the LenientOrderCollectionComparator ignores the actual ordering of 2
+ * collections.
  * <p/>
- * The preferred way of creating new instances is by using the ReflectionComparatorFactory. This factory will make
- * sure that a correct comparator chain is assembled.
+ * The preferred way of creating new instances is by using the ReflectionComparatorFactory. This
+ * factory will make sure that a correct comparator chain is assembled.
  * <p/>
  * A readable report differences can be created using the DifferenceReport.
  *
  * @author Tim Ducheyne
  * @author Filip Neven
  */
-public class ReflectionComparator {
+public final class ReflectionComparator {
 
-    /**
-     * The comparator chain.
-     */
-    protected List<Comparator> comparators;
+  /**
+   * The comparator chain.
+   */
+  private final List<Comparator> comparators;
 
-    /**
-     * A cache of results, so that comparisons are only performed once and infinite loops because of cycles are avoided
-     * A different cache is used dependent on whether only the first difference is required or whether we need all
-     * differences, since the resulting {@link Difference} objects differ. 
-     */
-    protected Map<Object, Map<Object, Difference>> firstDifferenceCachedResults = new IdentityHashMap<Object, Map<Object, Difference>>();
-    protected Map<Object, Map<Object, Difference>> allDifferencesCachedResults = new IdentityHashMap<Object, Map<Object, Difference>>();
+  /**
+   * A cache of results, so that comparisons are only performed once and infinite loops because of
+   * cycles are avoided A different cache is used dependent on whether only the first difference is
+   * required or whether we need all differences, since the resulting {@link Difference} objects
+   * differ.
+   */
+  private final Map<Object, Map<Object, Difference>> firstDifferenceCachedResults = new IdentityHashMap<Object, Map<Object, Difference>>();
+  private final Map<Object, Map<Object, Difference>> allDifferencesCachedResults = new IdentityHashMap<Object, Map<Object, Difference>>();
 
 
-    /**
-     * Creates a comparator that will use the given chain.
-     *
-     * @param comparators The comparator chain, not null
-     */
-    public ReflectionComparator(List<Comparator> comparators) {
-        this.comparators = comparators;
+  /**
+   * Creates a comparator that will use the given chain.
+   *
+   * @param comparators The comparator chain, not null
+   */
+  public ReflectionComparator(List<Comparator> comparators) {
+    this.comparators = comparators;
+  }
+
+
+  /**
+   * Checks whether there is no difference between the left and right objects.
+   *
+   * @param left the left instance
+   * @param right the right instance
+   * @return true if there is no difference, false otherwise
+   */
+  public boolean isEqual(Object left, Object right) {
+    Difference difference = getDifference(left, right, true);
+    return difference == null;
+  }
+
+
+  /**
+   * Checks whether there is a difference between the left and right objects.
+   *
+   * @param left the left instance
+   * @param right the right instance
+   * @return the difference, null if there is no difference
+   */
+  public Difference getDifference(Object left, Object right) {
+    return getDifference(left, right, false);
+  }
+
+
+  /**
+   * Checks whether there are differences between the left and right objects. This will return the
+   * root difference of the whole difference tree containing all the differences between the
+   * objects.
+   *
+   * @param left the left instance
+   * @param right the right instance
+   * @param onlyFirstDifference True if the comparison should stop at the first difference
+   * @return the root difference, null if there is no difference
+   */
+  public Difference getDifference(Object left, Object right, boolean onlyFirstDifference) {
+    // check whether difference is available in cache
+    Map<Object, Difference> cachedResult = getCachedDifference(left, onlyFirstDifference);
+    if (cachedResult != null) {
+      if (cachedResult.containsKey(right)) {
+        // found difference in cache, return cached value
+        return cachedResult.get(right);
+      }
+    } else {
+      cachedResult = new IdentityHashMap<>();
+      saveResultInCache(left, cachedResult, onlyFirstDifference);
+    }
+    cachedResult.put(right, null);
+
+    // perform actual comparison by iterating over the comparators
+    boolean compared = false;
+    Difference result = null;
+    for (Comparator comparator : comparators) {
+      if (comparator.canCompare(left, right)) {
+        result = comparator.compare(left, right, onlyFirstDifference, this);
+        compared = true;
+        break;
+      }
     }
 
-
-    /**
-     * Checks whether there is no difference between the left and right objects.
-     *
-     * @param left  the left instance
-     * @param right the right instance
-     * @return true if there is no difference, false otherwise
-     */
-    public boolean isEqual(Object left, Object right) {
-        Difference difference = getDifference(left, right, true);
-        return difference == null;
+    // check whether a suitable comparator was found
+    if (!compared) {
+      throw new UnitilsException(
+          "Could not determine differences. No comparator found that is able to compare the values. Left: "
+              + left + ", right " + right);
     }
 
+    // register outcome in cache
+    cachedResult.put(right, result);
+    return result;
+  }
 
-    /**
-     * Checks whether there is a difference between the left and right objects.
-     *
-     * @param left  the left instance
-     * @param right the right instance
-     * @return the difference, null if there is no difference
-     */
-    public Difference getDifference(Object left, Object right) {
-        return getDifference(left, right, false);
+  private void saveResultInCache(
+      Object left,
+      Map<Object, Difference> cachedResult,
+      boolean onlyFirstDifference
+  ) {
+    if (onlyFirstDifference) {
+      firstDifferenceCachedResults.put(left, cachedResult);
+    } else {
+      allDifferencesCachedResults.put(left, cachedResult);
     }
+  }
 
-
-    /**
-     * Checks whether there are differences between the left and right objects. This will return the root difference
-     * of the whole difference tree containing all the differences between the objects.
-     *
-     * @param left                the left instance
-     * @param right               the right instance
-     * @param onlyFirstDifference True if the comparison should stop at the first differnece
-     * @return the root difference, null if there is no difference
-     */
-    public Difference getDifference(Object left, Object right, boolean onlyFirstDifference) {
-        // check whether difference is available in cache
-        Map<Object, Difference> cachedResult = getCachedDifference(left, onlyFirstDifference);
-        if (cachedResult != null) {
-            if (cachedResult.containsKey(right)) {
-                // found difference in cache, return cached value
-                return cachedResult.get(right);
-            }
-        } else {
-            cachedResult = new IdentityHashMap<Object, Difference>();
-            saveResultInCache(left, cachedResult, onlyFirstDifference);
-        }
-        cachedResult.put(right, null);
-
-        // perform actual comparison by iterating over the comparators
-        boolean compared = false;
-        Difference result = null;
-        for (Comparator comparator : comparators) {
-            if (comparator.canCompare(left, right)) {
-                result = comparator.compare(left, right, onlyFirstDifference, this);
-                compared = true;
-                break;
-            }
-        }
-
-        // check whether a suitable comparator was found
-        if (!compared) {
-            throw new UnitilsException("Could not determine differences. No comparator found that is able to compare the values. Left: " + left + ", right " + right);
-        }
-
-        // register outcome in cache
-        cachedResult.put(right, result);
-        return result;
+  private Map<Object, Difference> getCachedDifference(Object left, boolean onlyFirstDifference) {
+    if (onlyFirstDifference) {
+      return firstDifferenceCachedResults.get(left);
+    } else {
+      return allDifferencesCachedResults.get(left);
     }
-
-    protected void saveResultInCache(Object left, Map<Object, Difference> cachedResult, boolean onlyFirstDifference) {
-        if (onlyFirstDifference) {
-            firstDifferenceCachedResults.put(left, cachedResult);
-        } else {
-            allDifferencesCachedResults.put(left, cachedResult);
-        }
-    }
-
-    protected Map<Object, Difference> getCachedDifference(Object left, boolean onlyFirstDifference) {
-        if (onlyFirstDifference) {
-            return firstDifferenceCachedResults.get(left);
-        } else {
-            return allDifferencesCachedResults.get(left);
-        }
-    }
+  }
 }

@@ -31,107 +31,118 @@ import org.unitils.reflectionassert.difference.UnorderedCollectionDifference;
  * @author Tim Ducheyne
  * @author Filip Neven
  */
-public class InnerDifferenceFinder {
+public final class InnerDifferenceFinder {
+
+  private InnerDifferenceFinder() {
+  }
+
+  /**
+   * Gets the difference at the given element/field/key (depending on the type of the given
+   * difference)
+   *
+   * @param fieldName The name of the element/field/key
+   * @param difference The difference, not null
+   * @return The difference, null if there is no difference
+   */
+  public static Difference getInnerDifference(String fieldName, Difference difference) {
+    if (difference == null) {
+      return null;
+    }
+    return difference.accept(new InnerDifferenceVisitor(), fieldName);
+  }
+
+
+  /**
+   * The visitor for visiting the difference tree.
+   */
+  static class InnerDifferenceVisitor implements DifferenceVisitor<Difference, String> {
+
+    /**
+     * Formatter for object values.
+     */
+    ObjectFormatter objectFormatter = new ObjectFormatter();
 
 
     /**
-     * Gets the difference at the given element/field/key (depending on the type of the given difference)
+     * Returns null, there are no inner differences for a simple difference.
      *
-     * @param fieldName  The name of the element/field/key
      * @param difference The difference, not null
+     * @param key The key
+     * @return null
+     */
+    @Override
+    public Difference visit(Difference difference, String key) {
+      return null;
+    }
+
+
+    /**
+     * Returns the difference at the field with the given name.
+     *
+     * @param objectDifference The difference, not null
+     * @param fieldName The field name, not null
      * @return The difference, null if there is no difference
      */
-    public static Difference getInnerDifference(String fieldName, Difference difference) {
-        if (difference == null) {
-            return null;
-        }
-        return difference.accept(new InnerDifferenceVisitor(), fieldName);
+    @Override
+    public Difference visit(ObjectDifference objectDifference, String fieldName) {
+      return objectDifference.getFieldDifferences().get(fieldName);
+    }
+
+
+    @Override
+    public Difference visit(ClassDifference classDifference, String argument) {
+      return null;
     }
 
 
     /**
-     * The visitor for visiting the difference tree.
+     * Returns the difference at the given key. The string representation (using the object
+     * formatter) of the keys in the map are compared with the given key string.
+     *
+     * @param mapDifference The difference, not null
+     * @param keyString The key as a string, not null
+     * @return The difference, null if there is no difference
      */
-    protected static class InnerDifferenceVisitor implements DifferenceVisitor<Difference, String> {
-
-        /**
-         * Formatter for object values.
-         */
-        protected ObjectFormatter objectFormatter = new ObjectFormatter();
-
-
-        /**
-         * Returns null, there are no inner differences for a simple difference.
-         *
-         * @param difference The difference, not null
-         * @param key        The key
-         * @return null
-         */
-        public Difference visit(Difference difference, String key) {
-            return null;
+    @Override
+    public Difference visit(MapDifference mapDifference, String keyString) {
+      for (Map.Entry<Object, Difference> entry : mapDifference.getValueDifferences().entrySet()) {
+        if (objectFormatter.format(entry.getKey()).equals(keyString)) {
+          return entry.getValue();
         }
-
-
-        /**
-         * Returns the difference at the field with the given name.
-         *
-         * @param objectDifference The difference, not null
-         * @param fieldName        The field name, not null
-         * @return The difference, null if there is no difference
-         */
-        public Difference visit(ObjectDifference objectDifference, String fieldName) {
-            return objectDifference.getFieldDifferences().get(fieldName);
-        }
-
-        
-        public Difference visit(ClassDifference classDifference, String argument) {
-            return null;
-        }
-
-
-        /**
-         * Returns the difference at the given key. The string represenation (using the object formatter) of the keys
-         * in the map are compared with the given key string.
-         *
-         * @param mapDifference The difference, not null
-         * @param keyString     The key as a string, not null
-         * @return The difference, null if there is no difference
-         */
-        public Difference visit(MapDifference mapDifference, String keyString) {
-            for (Map.Entry<Object, Difference> entry : mapDifference.getValueDifferences().entrySet()) {
-                if (objectFormatter.format(entry.getKey()).equals(keyString)) {
-                    return entry.getValue();
-                }
-            }
-            return null;
-        }
-
-
-        /**
-         * Returns the difference at the field with the given index.
-         *
-         * @param collectionDifference The difference, not null
-         * @param indexString          The index number as a string, not null
-         * @return The difference, null if there is no difference
-         */
-        public Difference visit(CollectionDifference collectionDifference, String indexString) {
-            return collectionDifference.getElementDifferences().get(new Integer(indexString));
-        }
-
-
-        /**
-         * Returns the best matching difference at the field with the given index.
-         *
-         * @param unorderedCollectionDifference The difference, not null
-         * @param indexString                   The index number as a string, not null
-         * @return The difference, null if there is no difference
-         */
-        public Difference visit(UnorderedCollectionDifference unorderedCollectionDifference, String indexString) {
-            int leftIndex = new Integer(indexString);
-            int rightIndex = unorderedCollectionDifference.getBestMatchingIndexes().get(leftIndex);
-            return unorderedCollectionDifference.getElementDifference(leftIndex, rightIndex);
-        }
+      }
+      return null;
     }
 
+
+    /**
+     * Returns the difference at the field with the given index.
+     *
+     * @param collectionDifference The difference, not null
+     * @param indexString The index number as a string, not null
+     * @return The difference, null if there is no difference
+     */
+    @Override
+    public Difference visit(CollectionDifference collectionDifference, String indexString) {
+      return collectionDifference.getElementDifferences().get(new Integer(indexString));
+    }
+
+
+    /**
+     * Returns the best matching difference at the field with the given index.
+     *
+     * @param unorderedCollectionDifference The difference, not null
+     * @param indexString The index number as a string, not null
+     * @return The difference, null if there is no difference
+     */
+    @Override
+    public Difference visit(
+        UnorderedCollectionDifference unorderedCollectionDifference,
+        String indexString
+    ) {
+      int leftIndex = new Integer(indexString);
+      int rightIndex = unorderedCollectionDifference.getBestMatchingIndexes().get(leftIndex);
+      return unorderedCollectionDifference.getElementDifference(leftIndex, rightIndex);
+    }
+  }
 
 }
