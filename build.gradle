@@ -1,14 +1,23 @@
+def reflectionAssertVersion = '0.2'
+
 ext {
     junitVersion = '5.6.2'
     guavaVersion = '25.1-jre'
     ognlVersion = '3.1.4'
+
+    isReleaseVersion = !reflectionAssertVersion.endsWith('-SNAPSHOT')
+
+    ossrhReleasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    ossrhSnapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
 }
 
 subprojects {
-    group 'com.github.hpple.reflectionassert'
-    version '0.2'
+    group 'com.github.hpple.reflection-assert'
+    version reflectionAssertVersion
 
-    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
     repositories {
         mavenCentral()
@@ -25,6 +34,10 @@ subprojects {
         testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
 
         testCompile group: 'com.google.guava', name: 'guava', version: guavaVersion
+    }
+
+    test {
+        useJUnitPlatform()
     }
 
     javadoc {
@@ -45,7 +58,64 @@ subprojects {
         archives javadocJar, sourcesJar
     }
 
-    test {
-        useJUnitPlatform()
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+
+                artifact sourcesJar
+                artifact javadocJar
+
+                pom {
+                    name = 'Reflection Assert'
+                    description = 'Reflection-based assertions for JUnit 5'
+                    url = 'https://github.com/hpple/reflection-assert'
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        // Original Unitils authors
+                        developer {
+                            name = 'Tim Ducheyne'
+                        }
+                        developer {
+                            name = 'Filip Neven'
+                        }
+                        // Author of the fork
+                        developer {
+                            id = 'hpple'
+                            name = 'Stanislav Kashirin'
+                            email = 'kashirinst@gmail.com'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:https://github.com/hpple/reflection-assert.git'
+                        developerConnection = 'scm:git:https://github.com/hpple/reflection-assert.git'
+                        url = 'https://github.com/hpple/reflection-assert/tree/master'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'MavenCentral'
+                url = isReleaseVersion ? ossrhReleasesRepoUrl : ossrhSnapshotsRepoUrl
+                credentials {
+                    username = "${project.findProperty('ossrhUsername')}"
+                    password = "${project.findProperty('ossrhPassword')}"
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.maven
     }
 }
