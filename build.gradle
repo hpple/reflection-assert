@@ -5,7 +5,7 @@ ext {
 }
 
 subprojects {
-    group 'com.github.reflectionassert'
+    group 'com.github.hpple.reflectionassert'
     version '0.2'
 
     apply plugin: 'java'
