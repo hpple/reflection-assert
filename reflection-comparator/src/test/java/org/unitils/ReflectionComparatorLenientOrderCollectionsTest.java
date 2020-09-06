@@ -18,7 +18,7 @@ package org.unitils;
 import static java.util.Arrays.binarySearch;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +41,7 @@ class ReflectionComparatorLenientOrderCollectionsTest {
 
   @BeforeEach
   void setUp() {
-    reflectionComparator = createRefectionComparator(LENIENT_ORDER);
+    reflectionComparator = createReflectionComparator(LENIENT_ORDER);
   }
 
   /**

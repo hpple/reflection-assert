@@ -20,7 +20,7 @@ package org.unitils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.util.InnerDifferenceFinder.getInnerDifference;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +76,7 @@ class ReflectionComparatorPrimitivesTest {
     primitivesInnerB = new Primitives(0, 0, primitivesB);
     primitivesInnerDifferentValue = new Primitives(0, 0, primitiveDifferentValue);
 
-    reflectionComparator = createRefectionComparator();
+    reflectionComparator = createReflectionComparator();
   }
 
   /**

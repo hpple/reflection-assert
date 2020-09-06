@@ -15,7 +15,7 @@
  */
 package org.unitils.reflectionassert.comparator.impl;
 
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -73,7 +73,7 @@ public class MapComparator implements Comparator {
     // Create copy from which we can remove elements.
     Map<Object, Object> rightCopy = new HashMap<>(rightMap);
 
-    ReflectionComparator keyReflectionComparator = createRefectionComparator();
+    ReflectionComparator keyReflectionComparator = createReflectionComparator();
     MapDifference difference = new MapDifference(
         "Different elements",
         left,

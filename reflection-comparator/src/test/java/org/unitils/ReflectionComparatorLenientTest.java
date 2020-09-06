@@ -18,7 +18,7 @@ package org.unitils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_DATES;
 import static org.unitils.reflectionassert.util.InnerDifferenceFinder.getInnerDifference;
@@ -142,10 +142,10 @@ class ReflectionComparatorLenientTest {
         null
     );
 
-    reflectionComparator = createRefectionComparator();
-    ignoreDefaultsReflectionComparator = createRefectionComparator(IGNORE_DEFAULTS);
-    lenientDatesReflectionComparator = createRefectionComparator(LENIENT_DATES);
-    ignoreDefaultsLenientDatesComparator = createRefectionComparator(
+    reflectionComparator = createReflectionComparator();
+    ignoreDefaultsReflectionComparator = createReflectionComparator(IGNORE_DEFAULTS);
+    lenientDatesReflectionComparator = createReflectionComparator(LENIENT_DATES);
+    ignoreDefaultsLenientDatesComparator = createReflectionComparator(
         IGNORE_DEFAULTS,
         LENIENT_DATES
     );

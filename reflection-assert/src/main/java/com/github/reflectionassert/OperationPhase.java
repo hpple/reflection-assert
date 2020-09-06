@@ -16,7 +16,7 @@
 package com.github.reflectionassert;
 
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 
 import java.util.Optional;
 import java.util.Set;
@@ -51,7 +51,7 @@ public final class OperationPhase {
    * @throws AssertionFailedError when given objects are not equal
    */
   public void isEqualTo(Object expected) {
-    ReflectionComparator reflectionComparator = createRefectionComparator(modes);
+    ReflectionComparator reflectionComparator = createReflectionComparator(modes);
     Difference difference = reflectionComparator.getDifference(expected, actual);
     if (difference != null) {
       fail(buildFailureMessage(difference, new DefaultDifferenceReport()));
@@ -78,7 +78,7 @@ public final class OperationPhase {
    * @throws AssertionFailedError when given objects are equal
    */
   public void isNotEqualTo(Object unexpected) {
-    ReflectionComparator reflectionComparator = createRefectionComparator(modes);
+    ReflectionComparator reflectionComparator = createReflectionComparator(modes);
     Difference difference = reflectionComparator.getDifference(unexpected, actual);
     if (difference == null) {
       fail(buildFailureMessage(

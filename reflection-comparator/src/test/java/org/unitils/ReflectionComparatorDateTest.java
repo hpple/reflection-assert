@@ -19,7 +19,7 @@ package org.unitils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -68,7 +68,7 @@ class ReflectionComparatorDateTest {
     sqlDate = new java.sql.Date(dateA.getTime());
     differentDate = new Date();
 
-    reflectionComparator = createRefectionComparator();
+    reflectionComparator = createReflectionComparator();
   }
 
 

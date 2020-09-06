@@ -18,7 +18,7 @@ package org.unitils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 import static org.unitils.reflectionassert.util.InnerDifferenceFinder.getInnerDifference;
 
@@ -90,8 +90,8 @@ class ReflectionComparatorPrimitivesArrayTest {
     arrayInnerDifferentValue = new Element(arrayDifferentValue);
     arrayInnerDifferentSize = new Element(arrayDifferentSize);
 
-    reflectionComparator = createRefectionComparator();
-    reflectionComparatorLenientOrder = createRefectionComparator(LENIENT_ORDER);
+    reflectionComparator = createReflectionComparator();
+    reflectionComparatorLenientOrder = createReflectionComparator(LENIENT_ORDER);
   }
 
 

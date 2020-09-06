@@ -18,7 +18,7 @@ package org.unitils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.util.InnerDifferenceFinder.getInnerDifference;
 
 import java.util.HashMap;
@@ -91,7 +91,7 @@ class ReflectionComparatorMapTest {
     mapReflectionCompareKeyB = createNotEqualsKeyMap("key 2");
     mapReflectionCompareDifferentKey = createNotEqualsKeyMap("XXXXXX");
 
-    reflectionComparator = createRefectionComparator();
+    reflectionComparator = createReflectionComparator();
   }
 
 

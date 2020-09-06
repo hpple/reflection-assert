@@ -114,10 +114,10 @@ public final class ReflectionComparatorFactory {
    * @param modes The modes, empty for strict comparison
    * @return The reflection comparator, not null
    */
-  public static ReflectionComparator createRefectionComparator(
+  public static ReflectionComparator createReflectionComparator(
       ReflectionComparatorMode... modes
   ) {
-    return createRefectionComparator(
+    return createReflectionComparator(
         modes == null || modes.length == 0
             ? emptySet()
             : EnumSet.copyOf(asList(modes))
@@ -131,7 +131,7 @@ public final class ReflectionComparatorFactory {
    * @param modes The modes, empty set for strict comparison
    * @return The reflection comparator, not null
    */
-  public static ReflectionComparator createRefectionComparator(Set<ReflectionComparatorMode> modes) {
+  public static ReflectionComparator createReflectionComparator(Set<ReflectionComparatorMode> modes) {
     List<Comparator> comparators = getComparatorChain(modes);
     return new ReflectionComparator(comparators);
   }

@@ -18,7 +18,7 @@ package org.unitils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.util.InnerDifferenceFinder.getInnerDifference;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ class ReflectionComparatorCollectionTest {
     collectionInnerB = createCollection(null, collectionB);
     collectionInnerDifferentValue = createCollection(null, collectionDifferentValue);
 
-    reflectionComparator = createRefectionComparator();
+    reflectionComparator = createReflectionComparator();
   }
 
 

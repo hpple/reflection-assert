@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 import static org.unitils.reflectionassert.util.InnerDifferenceFinder.getInnerDifference;
 
@@ -101,8 +101,8 @@ class ReflectionComparatorTest {
     objectsCircularDependencyA.getInner().getInner().setInner(objectsCircularDependencyA);
     objectsCircularDependencyB.getInner().getInner().setInner(objectsCircularDependencyB);
 
-    reflectionComparator = createRefectionComparator();
-    ignoreDefaultReflectionComparator = createRefectionComparator(IGNORE_DEFAULTS);
+    reflectionComparator = createReflectionComparator();
+    ignoreDefaultReflectionComparator = createReflectionComparator(IGNORE_DEFAULTS);
   }
 
 

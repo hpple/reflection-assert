@@ -21,7 +21,7 @@ package org.unitils.reflectionassert;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
 
@@ -142,7 +142,7 @@ public final class ReflectionAssert {
       Object actual,
       ReflectionComparatorMode... modes
   ) throws AssertionFailedError {
-    ReflectionComparator reflectionComparator = createRefectionComparator(modes);
+    ReflectionComparator reflectionComparator = createReflectionComparator(modes);
     Difference difference = reflectionComparator.getDifference(expected, actual);
     if (difference != null) {
       fail(getFailureMessage(message, difference));

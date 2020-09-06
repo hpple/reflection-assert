@@ -17,7 +17,7 @@ package org.unitils;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.unitils.reflectionassert.ReflectionComparatorFactory.createRefectionComparator;
+import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,7 +71,7 @@ class ReflectionComparatorSharedReferencesTest {
    */
   @BeforeEach
   void setUp() {
-    reflectionComparator = createRefectionComparator();
+    reflectionComparator = createReflectionComparator();
 
     // Create circular reference
     leaf1 = new References("Leaf1", null, null);
