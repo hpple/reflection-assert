@@ -53,7 +53,7 @@ Provides reflection assertions in conformance with vintage Unitils API for smoot
 
 You may treat this module as a drop-in replacement for Unitils if the reflection assert was the only package used from Unitils in your system.
 
-#### reflection-assert-comparator
+#### reflection-comparator
 Additionally, you may want to compare two objects reflectively out of the test scope without getting dependency on JUnit and other test-related libs. 
 Or maybe just get the difference report without any assertions involved.
 
