@@ -1,6 +1,7 @@
 Reflection Assert for JUnit 5
 =======
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.hpple.reflection-assert/reflection-assert.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.hpple.reflection-assert/reflection-assert/)
 [![Release](https://jitpack.io/v/hpple/reflection-assert.svg)](https://jitpack.io/#hpple/reflection-assert)
 [![Build Status](https://travis-ci.org/hpple/reflection-assert.svg?branch=master)](https://travis-ci.org/hpple/reflection-assert)
 
@@ -24,7 +25,7 @@ Or assert that two objects are not equal providing custom message:
 assertReflective().withMessage("message").that(actual).isNotEqualTo(unexpected);
 ```
 
-A report for a failed assertion will be look like:
+A report for a failed assertion will look like:
 
 ```
 Expected: User<name="John", title="CTO", address=Address<city="NY", street="2th">>
@@ -71,8 +72,9 @@ new DefaultDifferenceReport().createReport(difference)
 
 Dependency
 ----------------
+Releases are available in [Maven Central](https://repo1.maven.org/maven2/com/github/hpple/reflection-assert).
 
-First of all, add [JitPack](https://jitpack.io/) to your project:
+You may use [JitPack](https://jitpack.io/) as alternative, just add it to your project:
 
 #### Gradle
 ```gradle
