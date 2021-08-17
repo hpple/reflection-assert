@@ -15,7 +15,6 @@
  */
 package com.github.reflectionassert;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 
 import java.util.Optional;
@@ -88,4 +87,8 @@ public final class OperationPhase {
     }
   }
 
+
+  private void fail(String message) {
+    throw new AssertionFailedError(message);
+  }
 }
