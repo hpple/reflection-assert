@@ -2,7 +2,6 @@ Reflection Assert
 =======
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.hpple.reflection-assert/reflection-assert.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.hpple.reflection-assert/reflection-assert/)
-[![Release](https://jitpack.io/v/hpple/reflection-assert.svg)](https://jitpack.io/#hpple/reflection-assert)
 [![Build Status](https://app.travis-ci.com/hpple/reflection-assert.svg?branch=master)](https://app.travis-ci.com/github/hpple/reflection-assert)
 
 Fork of reflection assert from Unitils (http://www.unitils.org) compatible with JUnit 5 & other testing tools that support [opentest4j](https://github.com/ota4j-team/opentest4j).
@@ -74,25 +73,7 @@ Dependency
 ----------------
 Releases are available in [Maven Central](https://repo1.maven.org/maven2/com/github/hpple/reflection-assert).
 
-You may use [JitPack](https://jitpack.io/) as alternative, just add it to your project:
-
-#### Gradle
-```gradle
-repositories {
-    // ...
-    maven { url "https://jitpack.io" }
-}
-```
-#### Maven
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-```
-Then add the dependency:
+Just add the dependency:
 
 #### Gradle
 ##### reflection-assert
