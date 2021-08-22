@@ -87,8 +87,7 @@ public final class OperationPhase {
     }
   }
 
-
-  private void fail(String message) {
+  private static void fail(String message) {
     throw new AssertionFailedError(message);
   }
 }

@@ -19,8 +19,6 @@ package org.unitils.reflectionassert;
 
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.unitils.reflectionassert.ReflectionComparatorFactory.createReflectionComparator;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.IGNORE_DEFAULTS;
 import static org.unitils.reflectionassert.ReflectionComparatorMode.LENIENT_ORDER;
@@ -485,6 +483,16 @@ public final class ReflectionAssert {
         assertNotNull(result, formattedMessage);
       }
     }
+  }
+
+  private static void assertNotNull(Object actual, String message) {
+    if (actual == null) {
+      fail(message + " ==> expected: not <null>");
+    }
+  }
+
+  private static void fail(String message) {
+    throw new AssertionFailedError(message);
   }
 
   /**

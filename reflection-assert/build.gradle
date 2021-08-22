@@ -1,5 +1,5 @@
 dependencies {
-    compile project(":reflection-comparator")
+    api project(":reflection-comparator")
 
     implementation group: 'org.opentest4j', name: 'opentest4j', version: opentest4jVersion
 }

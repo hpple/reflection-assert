@@ -1,6 +1,6 @@
 dependencies {
-    compile project(":reflection-comparator")
+    api project(":reflection-comparator")
 
-    compileOnly group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
-    compile group: 'ognl', name: 'ognl', version: ognlVersion
+    implementation group: 'org.opentest4j', name: 'opentest4j', version: opentest4jVersion
+    implementation group: 'ognl', name: 'ognl', version: ognlVersion
 }
