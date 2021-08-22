@@ -15,6 +15,7 @@
  */
 package org.unitils.reflectionassert;
 
+import static org.unitils.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
@@ -83,7 +84,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertReflectionEquals_notEqualsDifferentOrder() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(listA, listDifferentOrder)
     );
   }
@@ -112,7 +113,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_differentListSameSize() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(listA, listDifferentValues)
     );
   }
@@ -123,7 +124,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_duplicateElement() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(listA, listDuplicateElement)
     );
   }
@@ -134,7 +135,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_oneElementLess() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(listA, listOneElementLess)
     );
   }
@@ -145,7 +146,7 @@ class ReflectionAssertCollectionsTest {
    */
   @Test
   void testAssertEquals_oneElementMore() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(listA, listOneElementMore)
     );
   }

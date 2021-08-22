@@ -16,6 +16,7 @@
 package org.unitils.reflectionassert;
 
 import static java.util.Arrays.asList;
+import static org.unitils.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyReflectionEquals;
 
@@ -69,7 +70,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsDifferentValues() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", asList("xxxxx", "xxxxx"), list)
     );
   }
@@ -98,7 +99,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsDifferentOrder() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", asList("el2", "el1"), list)
     );
   }
@@ -118,7 +119,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsPrimitivesList() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyLenientEquals("primitiveProperty", asList(999, 1), list)
     );
   }
@@ -129,7 +130,7 @@ public class ReflectionAssertPropertiesCollectionsTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_actualObjectNull() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyLenientEquals("stringProperty", asList(1, 2), null)
     );
   }

@@ -17,6 +17,7 @@ package org.unitils.reflectionassert;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.unitils.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertiesNotNull;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
@@ -110,7 +111,7 @@ class ReflectionAssertTest {
    */
   @Test
   void testAssertReflectionEquals_notEqualsDifferentValues() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(testObjectAString, testObjectDifferentValueString)
     );
   }
@@ -120,7 +121,7 @@ class ReflectionAssertTest {
    */
   @Test
   void testAssertReflectionEquals_leftNull() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(null, testObjectAString)
     );
   }
@@ -130,7 +131,7 @@ class ReflectionAssertTest {
    */
   @Test
   void testAssertReflectionEquals_rightNull() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertReflectionEquals(testObjectAString, null)
     );
   }
@@ -226,7 +227,7 @@ class ReflectionAssertTest {
 
   @Test
   void assertPropertiesNotNullTestFail() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertiesNotNull(
             "properties childobject ar not fully set",
             new TestObjectString(null, "")

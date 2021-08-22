@@ -99,7 +99,7 @@ class ReflectionAssertCyclicCollectionTest {
     private Set<TestObject> testObjects;
 
     public TestObject() {
-      this.testObjects = new HashSet<TestObject>();
+      this.testObjects = new HashSet<>();
     }
 
     public Set<TestObject> getTestObjects() {

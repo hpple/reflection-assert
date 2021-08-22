@@ -15,6 +15,7 @@
  */
 package org.unitils.reflectionassert;
 
+import static org.unitils.reflectionassert.MoreAssertions.assertFailing;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyLenientEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertPropertyReflectionEquals;
 
@@ -92,7 +93,7 @@ class ReflectionAssertPropertiesTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_notEqualsDifferentValues() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", "xxxxxx", testObject)
     );
   }
@@ -102,7 +103,7 @@ class ReflectionAssertPropertiesTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_leftNull() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", null, testObject)
     );
   }
@@ -114,7 +115,7 @@ class ReflectionAssertPropertiesTest {
   @Test
   void testAssertPropertyReflectionEquals_rightNull() {
     testObject.setStringProperty(null);
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyReflectionEquals("stringProperty", "stringValue", testObject)
     );
   }
@@ -125,7 +126,7 @@ class ReflectionAssertPropertiesTest {
    */
   @Test
   void testAssertPropertyReflectionEquals_actualObjectNull() {
-    MoreAssertions.assertFailing(() ->
+    assertFailing(() ->
         assertPropertyReflectionEquals("aProperty", "aValue", null)
     );
   }
