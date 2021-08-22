@@ -97,19 +97,19 @@ Then add the dependency:
 #### Gradle
 ##### reflection-assert
 ```gradle
-testCompile 'com.github.hpple.reflection-assert:reflection-assert:0.2'
+testCompile 'com.github.hpple.reflection-assert:reflection-assert:0.3'
 ```
 ##### reflection-assert-vintage
 ```gradle
-testCompile 'com.github.hpple.reflection-assert:reflection-assert-vintage:0.2'
+testCompile 'com.github.hpple.reflection-assert:reflection-assert-vintage:0.3'
 ```
 ##### reflection-comparator
 ```gradle
-compile 'com.github.hpple.reflection-assert:reflection-comparator:0.2'
+compile 'com.github.hpple.reflection-assert:reflection-comparator:0.3'
 ```
 or
 ```gradle
-testCompile 'com.github.hpple.reflection-assert:reflection-comparator:0.2'
+testCompile 'com.github.hpple.reflection-assert:reflection-comparator:0.3'
 ```
 
 #### Maven
@@ -118,7 +118,7 @@ testCompile 'com.github.hpple.reflection-assert:reflection-comparator:0.2'
 <dependency>
     <groupId>com.github.hpple.reflection-assert</groupId>
     <artifactId>reflection-assert</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -127,7 +127,7 @@ testCompile 'com.github.hpple.reflection-assert:reflection-comparator:0.2'
 <dependency>
     <groupId>com.github.hpple.reflection-assert</groupId>
     <artifactId>reflection-assert-vintage</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -136,7 +136,7 @@ testCompile 'com.github.hpple.reflection-assert:reflection-comparator:0.2'
 <dependency>
     <groupId>com.github.hpple.reflection-assert</groupId>
     <artifactId>reflection-comparator</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
 </dependency>
 ```
 or
@@ -144,7 +144,7 @@ or
 <dependency>
     <groupId>com.github.hpple.reflection-assert</groupId>
     <artifactId>reflection-comparator</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <scope>test</scope>
 </dependency>
 ```
