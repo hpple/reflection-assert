@@ -3,7 +3,7 @@ Reflection Assert for JUnit 5
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.hpple.reflection-assert/reflection-assert.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.hpple.reflection-assert/reflection-assert/)
 [![Release](https://jitpack.io/v/hpple/reflection-assert.svg)](https://jitpack.io/#hpple/reflection-assert)
-[![Build Status](https://travis-ci.org/hpple/reflection-assert.svg?branch=master)](https://travis-ci.org/hpple/reflection-assert)
+[![Build Status](https://app.travis-ci.com/hpple/reflection-assert.svg?branch=master)](https://app.travis-ci.com/github/hpple/reflection-assert)
 
 Fork of reflection assert from Unitils (http://www.unitils.org) compatible with JUnit 5.
 
